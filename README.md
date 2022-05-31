@@ -12,7 +12,7 @@
 
 <br />
 
-![app overview](docs/images/app-overview.png)
+![app overview](doc/images/app-overview.png)
 
 Lightweight containers have popularized the idea of running a single process or service without normal init systems like systemd.
 
