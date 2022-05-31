@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -eux
+
+REPO=$1
+PATTERN=$2
+release_url=$(curl -s https://api.github.com/repos/${REPO}/releases/latest | awk -F\" "/browser_download_url.*${PATTERN}/{print \$(NF-1)}")
+echo "REPO: $REPO, PATTERN: $PATTERN, release_url: $release_url"
+curl -OLs $release_url

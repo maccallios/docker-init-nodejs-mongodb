@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+
+  node:
+    privileged: true
+    tmpfs:
+      - /tmp:exec
+      - /run/lock
+      - /run
+      - /sys/fs/cgroup/systemd
+    build:
+      context: .
+    image: i-docker-init-nodejs-mongodb
+    container_name: docker-init-nodejs-mongodb.node
+    hostname: docker-init-nodejs-mongodb.node
+    ports: 
+    - '2022:22'
+    - '3000:3000'
+    - '8022:8022'
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
+    networks: 
+      net1:
+        ipv4_address: $CONTAINER_MAIN_IP
+    dns: [1.1.1.1]
+    tty: true
+    volumes:
+      # https://developers.redhat.com/blog/2014/05/05/running-systemd-within-docker-container
+      - type: bind
+        source: ./container/id_rsa.pub
+        target: /root/.config/id_rsa.pub
+      - type: bind
+        source: ./container/ttyd_pass
+        target: /root/.config/ttyd_pass
+
+      - type: bind
+        source: ./container/.zsh_history
+        target: /root/.zsh_history
+   
+    extra_hosts:
+      mongo: 127.0.0.1
+  
+networks:
+  net1:
+    name: net-w1
+    external: true
+

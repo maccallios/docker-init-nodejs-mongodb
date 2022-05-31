@@ -1,0 +1,15 @@
+[Unit]
+Description=run-autostart
+After=basic.target
+After=network.target
+DefaultDependencies=no
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+WorkingDirectory=/root
+ExecStart=/root/run-autostart.sh
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

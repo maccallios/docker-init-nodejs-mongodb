@@ -1,0 +1,19 @@
+[Unit]
+Description=MongoDB Database Service
+Wants=run-autostart.service
+After=run-autostart.service
+
+[Service]
+# Type=forking
+Type=simple
+User=mongodb
+Group=mongodb
+ExecStart=/usr/bin/mongod --config /etc/mongod.conf
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/usr/bin/mongod --config /etc/mongod.conf --shutdown
+# Restart=always
+# StandardOutput=syslog
+# StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
